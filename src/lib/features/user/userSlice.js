@@ -2,8 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Initial state
 const initialState = {
-  userId: null,
-  userRole: null,
+  name: null,
+  email: null,
+  isAuthenticated:false,
+  id: null,
+  role: null,
 };
 
 // Create Redux slice
@@ -13,13 +16,19 @@ const userSlice = createSlice({
   reducers: {
     // Set user data
     setUser: (state, action) => {
-      state.userId = action.payload.userId;
-      state.userRole = action.payload.userRole;
+      state.id = action.payload.id;
+      state.role = action.payload.role;
+      state.name = action.payload.name;
+      state.email = action.payload.email;
+      state.isAuthenticated = true;
     },
     // Clear user data (logout)
     clearUser: (state) => {
-      state.userId = null;
-      state.userRole = null;
+      state.id= null;
+      state.role= null;
+      state.name = null;
+      state.email = null;
+      state.isAuthenticated = false;
     },
   },
 });

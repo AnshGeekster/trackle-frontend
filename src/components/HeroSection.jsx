@@ -1,6 +1,9 @@
+import { useAppSelector } from "@/lib/hooks";
 import Link from "next/link";
 
 const HeroSection = () => {
+
+  const user = useAppSelector((state) => state.user);
   return (
     <div className="flex flex-col items-center mt-6 lg:mt-20">
       <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
@@ -14,12 +17,17 @@ const HeroSection = () => {
       Trackle connects citizens with municipal councils, making it simple to report issues like damaged roads, faulty streetlights, and waste management problems. Together, let’s build a better city!
       </p>
       <div className="flex justify-center my-10">
+
+        {!(user.isAuthenticated) &&
         <Link
           href="/sign-up"
           className="bg-gradient-to-r from-orange-500 to-orange-800 py-3 px-4 mx-3 rounded-md"
         >
           Create an account
         </Link>
+}
+
+
       </div>
       <div className="flex mt-10 justify-center">
         <video

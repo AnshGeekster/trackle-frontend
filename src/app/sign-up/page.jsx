@@ -8,6 +8,7 @@ import { User, Mail, Lock, Phone, MapPin, Building, UserCircle } from "lucide-re
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useRouter } from "next/navigation"
 
 const registerSchema = z
   .object({
@@ -27,6 +28,8 @@ const registerSchema = z
   })
 
 const Register = () => {
+
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -40,6 +43,7 @@ const Register = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/v1/auth/register", data)
       alert(response.data.message)
+      router.push('/login')
     } catch (error) {
       alert(error.response?.data?.error || "Registration failed")
     }

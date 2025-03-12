@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { Mail, Lock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/features/user/userSlice";
@@ -25,6 +25,7 @@ const loginSchema = z.object({
 const Login = () => {
 
     const dispatch = useAppDispatch();
+    const router = useRouter();
     
 
 
@@ -40,17 +41,26 @@ const Login = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/v1/auth/login", data);
 
-     
+      const user = response?.data?.data?.user
+
      
 
       dispatch(setUser({
-         userId: response?.data?.data?.user?.id, userRole: response?.data?.data?.user?.role
+         id: user?.id, role: user?.role, name: user?.name, email: user?.email
     }));
-
-
-
-
       alert(response.data.message);
+
+
+      
+      if (user?.role === "ADMIN") {
+        router.push("/admin-dashboard");
+      }
+      else if (user?.role === "USER") {
+        router.push("/user-dashboard");
+      }
+
+
+
     } catch (error) {
       alert(error.response?.data?.error || "Login failed");
     }
